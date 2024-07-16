@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import './widgets/Loginerror.dart';
 import 'dart:convert';
+import 'Home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,7 +16,9 @@ class _LoginState extends State<Login> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool fill = false;
-  bool result = false;
+  bool _result = true;
+  String token = "";
+
   @override
   void initState() {
     super.initState();
@@ -37,16 +41,53 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void _submit() {
+  void _submit() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
     if (username.isNotEmpty && password.isNotEmpty) {
-      Map<String, String> data = {
-        "username": username,
-        "password": password,
-      };
-      String dataJSON = jsonEncode(data);
-      log(dataJSON);
+      bool success = await _dataCheck(username, password);
+      if (!mounted) return;
+      setState(
+        () => _result = success,
+      );
+      // log(token);
+      // log(_result.toString());
+
+      if (_result == true && mounted) {
+        Navigator.pushNamed(context, '/home', arguments: token);
+      }
+      ;
+    }
+  }
+
+  Future<bool> _dataCheck(String username, String password) async {
+    final url = Uri.parse("http://223.68.128.86:28218/manage/ExtraCtrl");
+    final header = {"content-type": "text/html;charset=UTF-8"};
+    Map<String, Object> data = {
+      "name": "com.zfkj.core.Login.login",
+      "data": {
+        "login_id": username,
+        "login_pass": password,
+      }
+    };
+    final jsondata = jsonEncode(data);
+    final response = await http.post(url, headers: header, body: jsondata);
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(Uri.decodeComponent(response.body));
+      log(jsonEncode(responseData));
+      // log(responseData["data"]["token"]);
+      if (responseData["success"] == true) {
+        setState(() {
+          token = responseData["data"]["token"];
+          // log(token);
+        });
+
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 
@@ -212,7 +253,7 @@ class _LoginState extends State<Login> {
                           ),
                         ],
                       ),
-                      (!result
+                      (!_result
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
