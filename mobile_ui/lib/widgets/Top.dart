@@ -9,100 +9,46 @@ class Top extends StatefulWidget {
 
 class _TopState extends State<Top> {
   Widget _Tasktitle(int index) {
-    if (index == 0) {
-      return (Container(
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "待办",
-                style: TextStyle(
-                    color: Color(0xFF050505),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "PingFang TC"),
-                textAlign: TextAlign.left,
-              ),
-            ]),
-      ));
-    } else if (index == 1) {
-      return (Container(
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "工时",
-                style: TextStyle(
-                    color: Color(0xFF050505),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'PingFang TC'),
-                textAlign: TextAlign.left,
-              ),
-            ]),
-      ));
-    } else if (index == 2) {
-      return (Container(
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "项目",
-                style: TextStyle(
-                    color: Color(0xFF050505),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "PingFang TC"),
-                textAlign: TextAlign.left,
-              ),
-            ]),
-      ));
+    String title = '';
+    switch (index) {
+      case 0:
+        title = "待办";
+        break;
+      case 1:
+        title = "工时分配";
+        break;
+      case 2:
+        title = "项目";
+        break;
+      case 3:
+        title = "报销";
+        break;
+      case 4:
+        title = "我的";
+        break;
     }
-    if (index == 3) {
-      return (Container(
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "报销",
-                style: TextStyle(
-                    color: Color(0xFF050505),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "PingFang TC"),
-                textAlign: TextAlign.left,
-              ),
-            ]),
-      ));
-    } else if (index == 4) {
-      return (Container(
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "我的",
-                style: TextStyle(
-                    color: Color(0xFF050505),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: "PingFang TC"),
-                textAlign: TextAlign.left,
-              ),
-            ]),
-      ));
-    } else {
-      return (Container());
-    }
+
+    return Container(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                  color: Color(0xFF050505),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: "PingFang TC"),
+              textAlign: TextAlign.left,
+            ),
+          ]),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return (Flex(
+    return Flex(
       direction: Axis.horizontal,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -114,6 +60,6 @@ class _TopState extends State<Top> {
           },
         )
       ],
-    ));
+    );
   }
 }

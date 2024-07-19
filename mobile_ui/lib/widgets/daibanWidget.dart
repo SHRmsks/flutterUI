@@ -6,13 +6,17 @@ class Daiban extends StatefulWidget {
   final String name;
   final String time;
   final String task;
+  final String formNum;
+  final String token;
   @override
   const Daiban(
       {super.key,
-      required String this.title,
-      required String this.name,
-      required String this.time,
-      required String this.task});
+      required this.title,
+      required this.name,
+      required this.time,
+      required this.task,
+      required this.formNum,
+      required this.token});
   @override
   _DaibanState createState() => _DaibanState();
 }
@@ -23,12 +27,29 @@ class _DaibanState extends State<Daiban> {
   void _shenpihandler() {
     setState(() => _shenpi = true);
     if (_shenpi == true) {
-      Navigator.pushNamed(context, '/shenpi');
+      Navigator.pushNamed(
+        context,
+        '/shenpi',
+        arguments: {
+          'title': widget.title,
+          'name': widget.name,
+          'time': widget.time,
+          'node': widget.task,
+          'token': widget.token,
+          'formNum': widget.formNum,
+        },
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // log(widget.task);
+    // log(widget.name);
+    // log(widget.time);
+    // log(widget.task);
+    // log(widget.token);
+    log(widget.formNum);
     return (SizedBox(
         height: 134.5,
         child:

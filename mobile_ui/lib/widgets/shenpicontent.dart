@@ -5,22 +5,23 @@ import "dart:developer";
 import "package:flutter/widgets.dart";
 
 class SPContent extends StatefulWidget {
-  final String? title;
-  final String? applicant;
-  final String? applydate;
-  final String? node;
-  final String? project;
-  final String? date;
-  final String? hours;
+  final String title;
+  final String applicant;
+  final String applydate;
+  final String node;
+  final String project;
+  final String date;
+  final String hours;
+  // final String dataList;
   const SPContent(
       {super.key,
-      this.title,
-      this.node,
-      this.applicant,
-      this.applydate,
-      this.project,
-      this.date,
-      this.hours});
+      required this.title,
+      required this.node,
+      required this.applicant,
+      required this.applydate,
+      required this.project,
+      required this.date,
+      required this.hours});
   @override
   _SPContentState createState() => _SPContentState();
 }
@@ -89,7 +90,7 @@ class _SPContentState extends State<SPContent> {
                                                     fontFamily: "PingFang SC",
                                                     fontWeight:
                                                         FontWeight.w600)),
-                                            Text("提交的工时审核",
+                                            Text(widget.title,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Color(0xFF17181A),
@@ -114,7 +115,7 @@ class _SPContentState extends State<SPContent> {
                                                     fontFamily: "PingFang SC",
                                                     fontWeight:
                                                         FontWeight.w600)),
-                                            Text("张三",
+                                            Text(widget.applicant,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Color(0xFF17181A),
@@ -139,7 +140,7 @@ class _SPContentState extends State<SPContent> {
                                                     fontFamily: "PingFang SC",
                                                     fontWeight:
                                                         FontWeight.w600)),
-                                            Text("2023-10-22- 12:00:00",
+                                            Text(widget.applydate,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Color(0xFF17181A),
@@ -162,7 +163,7 @@ class _SPContentState extends State<SPContent> {
                                                     fontFamily: "PingFang SC",
                                                     fontWeight:
                                                         FontWeight.w600)),
-                                            Text("项目经理审核",
+                                            Text(widget.node,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Color(0xFF17181A),
@@ -210,7 +211,7 @@ class _SPContentState extends State<SPContent> {
                                     fontWeight: FontWeight.w600)),
                             ConstrainedBox(
                                 constraints: BoxConstraints(minWidth: 20)),
-                            Text("中信建投证券股份有限公司故障演练",
+                            Text(widget.project,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF17181A),
@@ -232,7 +233,7 @@ class _SPContentState extends State<SPContent> {
                                     fontWeight: FontWeight.w600)),
                             ConstrainedBox(
                                 constraints: BoxConstraints(minWidth: 20)),
-                            Text("2023-10-17",
+                            Text(widget.date,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF17181A),
@@ -254,7 +255,7 @@ class _SPContentState extends State<SPContent> {
                                     fontWeight: FontWeight.w600)),
                             ConstrainedBox(
                                 constraints: BoxConstraints(minWidth: 20)),
-                            Text("2023-10-17",
+                            Text(widget.hours,
                                 style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF17181A),

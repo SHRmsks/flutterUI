@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 
 class Suggestion extends StatefulWidget {
+  // final Function(double) ChangedHeight;
+  const Suggestion({super.key/*,required this.ChangedHeight*/});
   @override
   _SuggestionState createState() => _SuggestionState();
 }
@@ -12,7 +14,9 @@ class _SuggestionState extends State<Suggestion> {
     setState(() {
       _movements -= details.delta.dy;
       if (_movements < 30) _movements = 30;
+
       if (_movements > 400) _movements = 400;
+      // widget.ChangedHeight(_movements);
     });
   }
 

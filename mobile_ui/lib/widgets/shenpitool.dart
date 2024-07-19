@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ShenpiTool extends StatefulWidget {
-  const ShenpiTool({super.key});
+  // final bool hidden;
+  const ShenpiTool({super.key
+      // , required this.hidden
+      });
 
   @override
   _ShenpiToolState createState() => _ShenpiToolState();
@@ -13,8 +16,11 @@ class _ShenpiToolState extends State<ShenpiTool> {
     return Container(
       height: 80,
       child: Wrap(
-        alignment: WrapAlignment.spaceBetween,
+        alignment: WrapAlignment.spaceEvenly,
         children: [
+          // widget.hidden
+          //  ? SizedBox.shrink()
+          // :
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 80),
             child: ElevatedButton.icon(

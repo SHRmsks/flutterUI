@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 
 class SPback extends StatelessWidget {
+  final String backName;
+  const SPback({super.key, required this.backName});
   @override
   Widget build(BuildContext context) {
     return (Row(
@@ -13,7 +15,7 @@ class SPback extends StatelessWidget {
             icon: Image.asset("src/images/pop.png")),
         SizedBox(width: 5),
         Text(
-          "审批",
+          this.backName,
           style: TextStyle(
               fontSize: 20,
               color: Color(0xFF2D2D2D),
