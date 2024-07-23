@@ -5,21 +5,22 @@ class Taskhour extends StatefulWidget {
   final String time;
   final String task;
   final String? notes;
-  final int status;
+  final Function (int) onDelete;
+  final int index;
   @override
-  const Taskhour(
-      {super.key,
-      required this.time,
-      required this.task,
-      required this.notes,
-      required this.status});
+  const Taskhour({
+    super.key,
+    required this.time,
+    required this.task,
+    required this.notes,
+    required this.onDelete,
+    required this.index,
+  });
   @override
   _TaskhourState createState() => _TaskhourState();
 }
 
 class _TaskhourState extends State<Taskhour> {
-  double _x = 0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,7 +115,9 @@ class _TaskhourState extends State<Taskhour> {
                                   fontFamily: "PingFang SC"))
                         ])),
                 CustomSlidableAction(
-                    onPressed: (context) {},
+                    onPressed: (context){
+                   widget.onDelete(widget.index);
+                    },
                     backgroundColor: Color(0xFFFE3B44),
                     foregroundColor: Colors.white,
                     child: Column(

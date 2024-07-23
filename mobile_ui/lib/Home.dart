@@ -109,6 +109,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
+      Container(
+          color: Color(0xFFFFFFFFF),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height),
+
       (_selectedIndex == 1)
           ? Positioned.fill(
               child: Stack(children: [
@@ -168,19 +173,23 @@ class _HomeState extends State<Home> {
                           children: [
                           Hours(token: token),
                           Divider(color: Color(0xFFF0F0F2)),
-                          TextButton.icon(
-                            onPressed: _addhour,
-                            icon: Image.asset('src/images/addnew.png'),
-                            label: Text(
-                              "新增",
-                              style: TextStyle(
-                                  color: Color(0xFF0064FF),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "PingFang SC"),
-                            ),
-                          ),
-                          Expanded(child: HourGenerate(date: "2"))
+                          ConstrainedBox(
+                              constraints: BoxConstraints(maxHeight: 40),
+                              child: TextButton.icon(
+                                onPressed: _addhour,
+                                icon: Image.asset('src/images/addnew.png'),
+                                label: Text(
+                                  "新增",
+                                  style: TextStyle(
+                                      color: Color(0xFF0064FF),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "PingFang SC"),
+                                ),
+                              )),
+                          Expanded(
+                              child: HourGenerate(
+                                  date: "2", userID: userID, token: token))
                         ]))
                   : const SizedBox.shrink(),
               (_selectedIndex == 4)

@@ -38,7 +38,8 @@ class _ToolBoxState extends State<Toolbox> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-        height: 100,
+        color: Color(0xFFFFFFFFF),
+        height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
