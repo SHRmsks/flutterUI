@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'Login.dart';
 import "Home.dart";
-import "shenpi.dart";
+import "shenpigs.dart";
 import "./resetPswrd.dart";
 import 'package:intl/date_symbol_data_local.dart';
+import 'shenpixm.dart';
 
 void main() {
   initializeDateFormatting('zh_CN', null).then((_) {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => Home(),
         },
         onGenerateRoute: (settings) {
-          if (settings.name == '/shenpi') {
+          if (settings.name == '/shenpigs') {
             final args = settings.arguments as Map<String, dynamic>;
             return MaterialPageRoute(
               builder: (context) {
@@ -40,6 +41,18 @@ class MyApp extends StatelessWidget {
             final args = settings.arguments as Map<String, dynamic>;
             return MaterialPageRoute(builder: (context) {
               return Reset(userID: args['userID'], token: args['token']);
+            });
+          } else if (settings.name == '/shenpixm') {
+            final args = settings.arguments as Map<String, dynamic>;
+            return MaterialPageRoute(builder: (context) {
+              return Shenpixm(
+                title: args['title'],
+                name: args['name'],
+                time: args['time'],
+                node: args['node'],
+                token: args['token'],
+                formNum: args['formNum'],
+              );
             });
           }
         });

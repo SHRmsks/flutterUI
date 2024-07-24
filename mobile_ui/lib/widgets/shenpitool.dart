@@ -14,7 +14,6 @@ class _ShenpiToolState extends State<ShenpiTool> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
       child: Wrap(
         alignment: WrapAlignment.spaceEvenly,
         children: [

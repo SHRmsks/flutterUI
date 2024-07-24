@@ -8,6 +8,7 @@ class Daiban extends StatefulWidget {
   final String task;
   final String formNum;
   final String token;
+  final String workflow_no;
   @override
   const Daiban(
       {super.key,
@@ -16,20 +17,39 @@ class Daiban extends StatefulWidget {
       required this.time,
       required this.task,
       required this.formNum,
-      required this.token});
+      required this.token,
+      required this.workflow_no});
   @override
   _DaibanState createState() => _DaibanState();
 }
 
 class _DaibanState extends State<Daiban> {
-  bool _shenpi = false;
-
-  void _shenpihandler() {
-    setState(() => _shenpi = true);
-    if (_shenpi == true) {
+  bool _shenpigs = false;
+  bool _shenpixm = false;
+  void _shenpigshandler() {
+    setState(() => _shenpigs = true);
+    if (_shenpigs == true) {
       Navigator.pushNamed(
         context,
-        '/shenpi',
+        '/shenpigs',
+        arguments: {
+          'title': widget.title,
+          'name': widget.name,
+          'time': widget.time,
+          'node': widget.task,
+          'token': widget.token,
+          'formNum': widget.formNum,
+        },
+      );
+    }
+  }
+
+  void _shenpixmhandler() {
+    setState(() => _shenpixm = true);
+    if (_shenpixm == true) {
+      Navigator.pushNamed(
+        context,
+        '/shenpixm',
         arguments: {
           'title': widget.title,
           'name': widget.name,
@@ -125,7 +145,11 @@ class _DaibanState extends State<Daiban> {
             height: 1,
           ),
           ElevatedButton(
-              onPressed: _shenpihandler,
+              onPressed: widget.workflow_no== "gsfpsh"
+                  ? _shenpigshandler
+                  : widget.workflow_no == "lxsqsq"
+                      ? _shenpixmhandler
+                      : () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

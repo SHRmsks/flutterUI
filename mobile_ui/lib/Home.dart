@@ -25,12 +25,17 @@ class _HomeState extends State<Home> {
   bool hour = false;
   late String name;
   bool addHour = false;
-
+  DateTime? selected;
   late Future<String> workflowdata;
   int _selectedIndex = 0;
 
   void _addhour() {
     setState(() => addHour = true);
+  }
+
+  void DatePointed(DateTime date) {
+    setState(() => selected = date);
+    log("mainDatetimeselected:  $selected");
   }
 
   void _removeHour() {
@@ -60,7 +65,6 @@ class _HomeState extends State<Home> {
           workflowdata = _getTasks(token);
         });
         log(token);
-
         // workflowdata?.then((value) => log('Workflow data: $value'));
       }
     });
@@ -141,18 +145,12 @@ class _HomeState extends State<Home> {
               Top(index: _selectedIndex),
               (_selectedIndex == 0)
                   ? SizedBox(
-                      height: MediaQuery.of(context).size.height - 100,
+                      height: MediaQuery.of(context).size.height - 80,
                       child: FutureBuilder(
                           future: workflowdata,
                           builder: (context, snapshot) {
-                            if (snapshot.hasData &&
-                                snapshot.data != null &&
-                                snapshot.data!.isNotEmpty) {
-                              log("snap" + snapshot.data!);
-
-                              return TaskGenerate(
-                                  workdata: snapshot.data!, token: token);
-                            } else {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
                               return Center(
                                   child: Row(
                                       mainAxisAlignment:
@@ -162,6 +160,18 @@ class _HomeState extends State<Home> {
                                     SizedBox(width: 20),
                                     Text("正在加载中...")
                                   ]));
+                            } else if (snapshot.connectionState ==
+                                    ConnectionState.done &&
+                                snapshot.hasError) {
+                              return Center(child: Text("${snapshot.error}"));
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return Center(child: Text("暂无数据"));
+                            } else {
+                              log("snap?? " + snapshot.data!);
+
+                              return TaskGenerate(
+                                  workdata: snapshot.data!, token: token);
                             }
                           }))
                   : const SizedBox.shrink(),
@@ -171,7 +181,7 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                          Hours(token: token),
+                          Hours(token: token, pointedAT: DatePointed),
                           Divider(color: Color(0xFFF0F0F2)),
                           ConstrainedBox(
                               constraints: BoxConstraints(maxHeight: 40),
@@ -188,8 +198,13 @@ class _HomeState extends State<Home> {
                                 ),
                               )),
                           Expanded(
-                              child: HourGenerate(
-                                  date: "2", userID: userID, token: token))
+                              child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 80.0),
+                                  child: HourGenerate(
+                                      date: "2",
+                                      userID: userID,
+                                      token: token,
+                                      selected: selected)))
                         ]))
                   : const SizedBox.shrink(),
               (_selectedIndex == 4)

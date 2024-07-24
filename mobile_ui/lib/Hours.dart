@@ -7,7 +7,9 @@ import 'package:table_calendar/table_calendar.dart';
 
 class Hours extends StatefulWidget {
   final String token;
-  const Hours({super.key, required this.token});
+  final Function(DateTime) pointedAT;
+  const Hours({super.key, required this.token, required this.pointedAT});
+
   @override
   _HoursState createState() => _HoursState();
 }
@@ -15,6 +17,7 @@ class Hours extends StatefulWidget {
 class _HoursState extends State<Hours> {
   DateTime focused = DateTime.now();
   DateTime? selected;
+
   DateTime? firstDay = DateTime(DateTime.now().year, DateTime.now().month, 1);
   late DateTime lastDay;
   bool isLoading = true;
@@ -44,6 +47,7 @@ class _HoursState extends State<Hours> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() => selected = null);
     getLastDay();
     fetchEventData();
   }
@@ -141,6 +145,9 @@ class _HoursState extends State<Hours> {
                       selected = selectedDay;
                       focused = focusedDay;
                     });
+                    log("selected:::: $selectedDay");
+                    log("selected???? $selected");
+                    widget.pointedAT(selectedDay);
                   },
                   calendarBuilders:
                       CalendarBuilders(markerBuilder: (context, date, events) {

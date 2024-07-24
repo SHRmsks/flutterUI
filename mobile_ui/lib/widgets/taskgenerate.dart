@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import './daibanWidget.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class _TaskGenerateState extends State<TaskGenerate> {
     Map<String, dynamic> workdataDecoded = jsonDecode(widget.workdata);
     tasks = List<Map<String, dynamic>>.from(
         workdataDecoded['data']['ds_query_todolist']);
+    log("task length: " + tasks.length.toString());
   }
 
   @override
@@ -38,13 +40,15 @@ class _TaskGenerateState extends State<TaskGenerate> {
           final time = task['create_time'];
           final taskName = task['workflow_name'];
           final formNum = task['form_no'];
+          final workflow_no = task['workflow_no'];
           return Daiban(
               title: title,
               name: name,
               time: time,
               task: taskName,
               token: widget.token,
-              formNum: formNum);
+              formNum: formNum,
+              workflow_no: workflow_no);
         });
   }
 }

@@ -4,8 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class Taskhour extends StatefulWidget {
   final String time;
   final String task;
-  final String? notes;
-  final Function (int) onDelete;
+  final String notes;
+  final void Function(int) onDelete;
   final int index;
   @override
   const Taskhour({
@@ -115,8 +115,8 @@ class _TaskhourState extends State<Taskhour> {
                                   fontFamily: "PingFang SC"))
                         ])),
                 CustomSlidableAction(
-                    onPressed: (context){
-                   widget.onDelete(widget.index);
+                    onPressed: (context) {
+                      widget.onDelete(widget.index);
                     },
                     backgroundColor: Color(0xFFFE3B44),
                     foregroundColor: Colors.white,
@@ -136,14 +136,14 @@ class _TaskhourState extends State<Taskhour> {
             ),
             child: ListTile(
               tileColor: Color(0xFFFFFFFF),
-              title: Text('算法交易',
+              title: Text(widget.task,
                   style: TextStyle(
                     color: Color(0xFF050505),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     fontFamily: "PingFang SC",
                   )),
-              subtitle: Text('这是一条备注',
+              subtitle: Text(widget.notes,
                   style: TextStyle(
                     color: Color(0xFF46484D),
                     fontSize: 13,
