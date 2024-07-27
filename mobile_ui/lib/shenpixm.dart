@@ -15,25 +15,38 @@ class Shenpixm extends StatefulWidget {
   final String node;
   final String token;
   final String formNum;
-  const Shenpixm(
-      {super.key,
-      required this.title,
-      required this.name,
-      required this.time,
-      required this.node,
-      required this.formNum,
-      required this.token});
+  final String userID;
+  final String username;
+  final String dept_id;
+  final String dept_name;
+  final String uuid;
+  const Shenpixm({
+    super.key,
+    required this.title,
+    required this.name,
+    required this.time,
+    required this.node,
+    required this.formNum,
+    required this.token,
+    required this.userID,
+    required this.username,
+    required this.dept_id,
+    required this.dept_name,
+    required this.uuid,
+  });
   @override
   _ShenpixmState createState() => _ShenpixmState();
 }
 
 class _ShenpixmState extends State<Shenpixm> {
   late Future<Map<String, dynamic>> data;
+  late Future<Map<String, dynamic>> data2;
   @override
   void initState() {
     super.initState();
 
     data = _getData();
+    data2 = _getData2();
   }
 
   Future<Map<String, dynamic>> _getData() async {
@@ -50,7 +63,9 @@ class _ShenpixmState extends State<Shenpixm> {
         ]
       }
     };
+
     final jsondata = jsonEncode(data);
+
     final response = await http.post(url, headers: header, body: jsondata);
     if (response.statusCode == 200) {
       log("hello " + Uri.decodeComponent(response.body));
@@ -61,6 +76,32 @@ class _ShenpixmState extends State<Shenpixm> {
     }
   }
 
+  Future<Map<String, dynamic>> _getData2() async {
+    final url2 = Uri.parse(
+        "http://223.68.128.86:28218/manage/ServletCtrl?uuid=&token=" +
+            widget.token);
+    final header2 = {"content-type": "text/html;charset=UTF-8"};
+    Map<String, dynamic> data2 = {
+      "name": "com.zfkj.core.Common.queryData",
+      "data": {
+        "tablename": "xmglxt_xmxx_ryxx",
+        "search_condition": [
+          {"field": "business_no", "value": widget.formNum}
+        ]
+      }
+    };
+    final jsondata2 = jsonEncode(data2);
+    final response = await http.post(url2, headers: header2, body: jsondata2);
+    if (response.statusCode == 200) {
+      log("hello22 " + Uri.decodeComponent(response.body));
+      final responsedata = jsonDecode(Uri.decodeComponent(response.body));
+      return responsedata as Map<String, dynamic>;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return (Scaffold(
         body: Stack(children: [
@@ -71,8 +112,8 @@ class _ShenpixmState extends State<Shenpixm> {
           child: SPback(backName: "审批"),
         ),
         Expanded(
-          child: FutureBuilder<Map<String, dynamic>>(
-              future: data,
+          child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: Future.wait([data, data2]),
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.data != null &&
@@ -85,15 +126,84 @@ class _ShenpixmState extends State<Shenpixm> {
                     applicant: widget.name,
                     applydate: widget.time,
                     node: widget.node,
-                    project_id: "1",
-                    project_name: '1',
-                    client: '1',
-                    product_name: '1',
-                    time: '1',
-                    manager: '1',
-                    amount: '1',
-                    endDate: "1",
-                    team: '1',
+                    project_id:
+                        (data[0]['data']['xmglxt_xmxx'][0]['xmbh'].isEmpty)
+                            ? '-'
+                            : data[0]['data']['xmglxt_xmxx'][0]['xmbh'],
+                    project_name:
+                        (data[0]['data']['xmglxt_xmxx'][0]['xmmc'].isEmpty)
+                            ? '-'
+                            : data[0]['data']['xmglxt_xmxx'][0]['xmmc'],
+                    client: (data[0]['data']['xmglxt_xmxx'][0]['khbh'].isEmpty)
+                        ? '-'
+                        : data[0]['data']['xmglxt_xmxx'][0]['khbh'],
+                    product_name:
+                        (data[0]['data']['xmglxt_xmxx'][0]['cpbh'].isEmpty)
+                            ? '-'
+                            : data[0]['data']['xmglxt_xmxx'][0]['cpbh'],
+                    time: (data[0]['data']['xmglxt_xmxx'][0]['rq'].isEmpty)
+                        ? '-'
+                        : data[0]['data']['xmglxt_xmxx'][0]['rq']
+                            .substring(0, 10),
+                    manager:
+                        (data[0]['data']['xmglxt_xmxx'][0]['xmjlmc'].isEmpty)
+                            ? '-'
+                            : data[0]['data']['xmglxt_xmxx'][0]['xmjlmc'],
+                    amount: (data[0]['data']['xmglxt_xmxx'][0]['htje'].isEmpty)
+                        ? '-'
+                        : data[0]['data']['xmglxt_xmxx'][0]['htje'],
+                    endDate: (data[0]['data']['xmglxt_xmxx'][0]['jsrq'].isEmpty)
+                        ? '--'
+                        : data[0]['data']['xmglxt_xmxx'][0]['jsrq'],
+                    team: '--',
+                    totaltime:
+                        (data[0]['data']['xmglxt_xmxx'][0]['xmzgs'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['xmzgs'],
+                    productrevenue:
+                        (data[0]['data']['xmglxt_xmxx'][0]['cpsr'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['cpsr'],
+                    servicerevenue:
+                        (data[0]['data']['xmglxt_xmxx'][0]['fwsr'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['fwsr'],
+                    hrexpense:
+                        (data[0]['data']['xmglxt_xmxx'][0]['ryf'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['ryf'],
+                    expense: (data[0]['data']['xmglxt_xmxx'][0]['cgf'].isEmpty)
+                        ? '--'
+                        : data[0]['data']['xmglxt_xmxx'][0]['cgf'],
+                    tripexpense:
+                        (data[0]['data']['xmglxt_xmxx'][0]['clf'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['clf'],
+                    otherexpense:
+                        (data[0]['data']['xmglxt_xmxx'][0]['qtfy'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['qtfy'],
+                    warranty:
+                        (data[0]['data']['xmglxt_xmxx'][0]['wbje'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['wbje'],
+                    warrantycycle:
+                        (data[0]['data']['xmglxt_xmxx'][0]['wbzq'].isEmpty)
+                            ? '--'
+                            : data[0]['data']['xmglxt_xmxx'][0]['wbzq'],
+                    filename:
+                        (data[0]['data']['xmglxt_xmxx'][0]['fj_name'].isEmpty)
+                            ? []
+                            : data[0]['data']['xmglxt_xmxx'][0]['fj_name'].split(','),
+                    file: (data[0]['data']['xmglxt_xmxx'][0]['fj'].isEmpty)
+                        ? []
+                        : data[0]['data']['xmglxt_xmxx'][0]['fj'].split(','),
+                    token: widget.token,
+                    userID: widget.userID,
+                    username: widget.username,
+                    dept_id: widget.dept_id,
+                    uuid: widget.uuid,
+                    dept_name: widget.dept_name,
                   );
                 } else {
                   return Center(

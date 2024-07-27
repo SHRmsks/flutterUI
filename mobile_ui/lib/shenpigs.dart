@@ -96,6 +96,7 @@ class _ShenpiState extends State<Shenpi> {
                   project: data["data"]["xmglxt_gsxx"][0]["xmmc"],
                   date: data["data"]["xmglxt_gsxx"][0]["rq"].substring(0, 10),
                   hours: data["data"]["xmglxt_gsxx"][0]["gs"].toString(),
+                  notes: data['data']["xmglxt_gsxx"][0]['bz'],
                 );
               } else {
                 return Center(

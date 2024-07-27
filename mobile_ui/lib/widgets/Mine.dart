@@ -88,7 +88,16 @@ class _MineState extends State<Mine> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+
+            Navigator.pushNamed(context, '/message', arguments: {
+                        "userID": widget.user_id,
+                        "token": widget.token
+                      });
+
+
+
+                    },
                     child: Padding(
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 20),

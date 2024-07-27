@@ -21,10 +21,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late String token;
+  late String dept_id;
+  late String dept_name;
   String userID = "";
   bool hour = false;
-  late String name;
+  late String username;
   bool addHour = false;
+  late String uuid;
   DateTime? selected;
   late Future<String> workflowdata;
   int _selectedIndex = 0;
@@ -84,8 +87,13 @@ class _HomeState extends State<Home> {
       final responsedata = jsonDecode(Uri.decodeComponent(response1.body));
 
       userID = responsedata["data"]["user_id"];
-      name = responsedata["data"]["user_name"];
-      log("user_ID" + userID);
+      username = responsedata["data"]["user_name"];
+      dept_id = responsedata["data"]["dept_id"];
+      dept_name = responsedata["data"]["dept_name"];
+      uuid = responsedata["data"]["uuid"];
+
+      // log("dept_id" + dept_id);
+      // log("dept_name" + dept_name);
     }
 
     final url = Uri.parse(
@@ -171,7 +179,13 @@ class _HomeState extends State<Home> {
                               log("snap?? " + snapshot.data!);
 
                               return TaskGenerate(
-                                  workdata: snapshot.data!, token: token);
+                                  workdata: snapshot.data!,
+                                  token: token,
+                                  userid: userID,
+                                  username: username,
+                                  dept_id: dept_id,
+                                  uuid: uuid,
+                                  dept_name: dept_name);
                             }
                           }))
                   : const SizedBox.shrink(),
@@ -208,7 +222,7 @@ class _HomeState extends State<Home> {
                         ]))
                   : const SizedBox.shrink(),
               (_selectedIndex == 4)
-                  ? Mine(user_id: userID, token: token, name: name)
+                  ? Mine(user_id: userID, token: token, name: username)
                   : const SizedBox.shrink(),
             ]),
           )),
@@ -231,7 +245,9 @@ class _HomeState extends State<Home> {
                       child: Container(color: Colors.white.withOpacity(0.13)),
                     ),
                   ),
-                  Positioned(left: 0, right: 0, bottom: 0, child: Addhours())
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Addhours(token: token, current: selected))
                 ],
               ),
             )

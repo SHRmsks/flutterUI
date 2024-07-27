@@ -7,8 +7,21 @@ import 'package:flutter/material.dart';
 class TaskGenerate extends StatefulWidget {
   final String workdata;
   final String token;
+  final String userid;
+  final String username;
+  final String dept_id;
+  final String dept_name;
+  final String uuid;
   @override
-  const TaskGenerate({super.key, required this.workdata, required this.token});
+  const TaskGenerate(
+      {super.key,
+      required this.workdata,
+      required this.token,
+      required this.userid,
+      required this.username,
+      required this.dept_id,
+      required this.uuid,
+      required this.dept_name});
   @override
   _TaskGenerateState createState() => _TaskGenerateState();
 }
@@ -18,6 +31,7 @@ class _TaskGenerateState extends State<TaskGenerate> {
   late String title;
   late String time;
   late String task;
+
   late List<Map<String, dynamic>> tasks;
 
   @override
@@ -48,6 +62,11 @@ class _TaskGenerateState extends State<TaskGenerate> {
               task: taskName,
               token: widget.token,
               formNum: formNum,
+              userID: widget.userid,
+              username: widget.username,
+              dept_id: widget.dept_id,
+              dept_name: widget.dept_name,
+              uuid: widget.uuid,
               workflow_no: workflow_no);
         });
   }

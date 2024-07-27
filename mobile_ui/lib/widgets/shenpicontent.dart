@@ -12,6 +12,7 @@ class SPContent extends StatefulWidget {
   final String project;
   final String date;
   final String hours;
+  final String notes;
   // final String dataList;
   const SPContent(
       {super.key,
@@ -21,6 +22,7 @@ class SPContent extends StatefulWidget {
       required this.applydate,
       required this.project,
       required this.date,
+      required this.notes,
       required this.hours});
   @override
   _SPContentState createState() => _SPContentState();
@@ -264,16 +266,21 @@ class _SPContentState extends State<SPContent> {
                         ConstrainedBox(
                             constraints: BoxConstraints(minWidth: 20)),
                         Expanded(
-                          child: Text(
-                            "这是一行备注信息这是一行备注信息这是一行备注信息这是一行备注信息",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF17181A),
-                                fontFamily: "2.0",
-                                fontWeight: FontWeight.w400),
-                            overflow: TextOverflow.visible,
-                            textAlign: TextAlign.end,
-                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  widget.notes,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF17181A),
+                                      fontFamily: "2.0",
+                                      fontWeight: FontWeight.w400),
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.end,
+                                  softWrap: true,
+                                )
+                              ]),
                         ),
                       ],
                     )

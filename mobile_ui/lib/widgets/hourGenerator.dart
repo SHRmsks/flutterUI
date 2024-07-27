@@ -23,12 +23,14 @@ class HourGenerate extends StatefulWidget {
 class _HourGenerateState extends State<HourGenerate> {
   List<Map<String, dynamic>> hourList = [];
   late DateTime pointed;
+  String? errormsg;
   @override
   void initState() {
     super.initState();
     log("userID" + widget.userID);
-    log("widgetpassed: " + widget.selected!.toIso8601String());
+    //log("widgetpassed: " + widget.selected!.toIso8601String());
     if (widget.selected != null) {
+      //log("widgetpassed: " + widget.selected!.toIso8601String());
       setState(() => pointed = widget.selected!);
     } else {
       setState(() => pointed = DateTime.now());
@@ -53,8 +55,18 @@ class _HourGenerateState extends State<HourGenerate> {
   }
 
   void _fetchedHours() async {
-    final data = await _getHours(widget.token, widget.userID, widget.date);
-    setState(() => hourList = data);
+    try {
+      final data = await _getHours(widget.token, widget.userID, widget.date);
+      setState(() {
+        hourList = data;
+        errormsg = null;
+      });
+    } catch (e) {
+      setState(() {
+        hourList = [];
+        errormsg = "数据读取失败" + e.toString();
+      });
+    }
   }
 
   void removeItem(int index) {
@@ -101,29 +113,40 @@ class _HourGenerateState extends State<HourGenerate> {
           .toList();
     } else {
       log("Failed to fetch hours");
-      return [];
+      throw Exception("数据读取失败");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return hourList.isEmpty
-        ? Center(child: Text("暂无数据"))
-        : ListView.builder(
-            itemCount: hourList.length,
-            itemBuilder: (context, index) {
-              final hour = hourList[index];
-              log("hour:: $hour");
-              final time = hour['gs'].substring(0, 1);
-              final task = hour['xmmc'];
-              final notes = hour['bz'];
+    return (errormsg != null)
+        ? Center(child: Text(errormsg!))
+        : hourList.isEmpty
+            ? Center(
+                child: Text(
+                "暂无数据",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: "PingFang SC",
+                  color: Color(0xFF050505),
+                  fontWeight: FontWeight.w500,
+                ),
+              ))
+            : ListView.builder(
+                itemCount: hourList.length,
+                itemBuilder: (context, index) {
+                  final hour = hourList[index];
+                  log("hour:: $hour");
+                  final time = hour['gs'].substring(0, 1);
+                  final task = hour['xmmc'];
+                  final notes = hour['bz'];
 
-              return Taskhour(
-                  time: time,
-                  task: task,
-                  notes: notes,
-                  onDelete: (int idx) => removeItem(idx),
-                  index: index);
-            });
+                  return Taskhour(
+                      time: time,
+                      task: task,
+                      notes: notes,
+                      onDelete: (int idx) => removeItem(idx),
+                      index: index);
+                });
   }
 }

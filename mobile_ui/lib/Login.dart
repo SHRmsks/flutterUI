@@ -94,9 +94,14 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        // Wrap the body in SingleChildScrollView
-        child: Stack(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: SingleChildScrollView(
+
+            // Wrap the body in SingleChildScrollView
+            child: Stack(
           children: [
             Align(
               alignment: Alignment.topCenter,
@@ -315,7 +320,7 @@ class _LoginState extends State<Login> {
               ),
             ),
           ],
-        ),
+        )),
       ),
     );
   }

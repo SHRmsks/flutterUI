@@ -47,7 +47,7 @@ class _HoursState extends State<Hours> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() => selected = null);
+    selected = null;
     getLastDay();
     fetchEventData();
   }

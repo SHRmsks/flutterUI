@@ -9,6 +9,11 @@ class Daiban extends StatefulWidget {
   final String formNum;
   final String token;
   final String workflow_no;
+  final String userID;
+  final String username;
+  final String dept_id;
+  final String dept_name;
+  final String uuid;
   @override
   const Daiban(
       {super.key,
@@ -18,7 +23,12 @@ class Daiban extends StatefulWidget {
       required this.task,
       required this.formNum,
       required this.token,
-      required this.workflow_no});
+      required this.workflow_no,
+      required this.userID,
+      required this.uuid,
+      required this.username,
+      required this.dept_id,
+      required this.dept_name});
   @override
   _DaibanState createState() => _DaibanState();
 }
@@ -26,12 +36,31 @@ class Daiban extends StatefulWidget {
 class _DaibanState extends State<Daiban> {
   bool _shenpigs = false;
   bool _shenpixm = false;
+  bool _shenpify = false;
   void _shenpigshandler() {
     setState(() => _shenpigs = true);
     if (_shenpigs == true) {
       Navigator.pushNamed(
         context,
         '/shenpigs',
+        arguments: {
+          'title': widget.title,
+          'name': widget.name,
+          'time': widget.time,
+          'node': widget.task,
+          'token': widget.token,
+          'formNum': widget.formNum,
+        },
+      );
+    }
+  }
+
+  void _shenpifyhandler() {
+    setState(() => _shenpify = true);
+    if (_shenpify == true) {
+      Navigator.pushNamed(
+        context,
+        '/shenpify',
         arguments: {
           'title': widget.title,
           'name': widget.name,
@@ -57,6 +86,11 @@ class _DaibanState extends State<Daiban> {
           'node': widget.task,
           'token': widget.token,
           'formNum': widget.formNum,
+          'userID': widget.userID,
+          'username': widget.username,
+          'dept_id': widget.dept_id,
+          'dept_name': widget.dept_name,
+          'uuid': widget.uuid,
         },
       );
     }
@@ -145,11 +179,13 @@ class _DaibanState extends State<Daiban> {
             height: 1,
           ),
           ElevatedButton(
-              onPressed: widget.workflow_no== "gsfpsh"
+              onPressed: widget.workflow_no == "gsfpsh"
                   ? _shenpigshandler
                   : widget.workflow_no == "lxsqsq"
                       ? _shenpixmhandler
-                      : () {},
+                      : widget.workflow_no == "fybxsh"
+                          ? _shenpifyhandler
+                          : () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
