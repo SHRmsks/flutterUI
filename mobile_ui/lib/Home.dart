@@ -126,75 +126,79 @@ class _HomeState extends State<Home> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height),
 
-      (_selectedIndex == 1)
-          ? Positioned.fill(
-              child: Stack(children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  height: 240, // predefined height
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('src/images/bg.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+      if (_selectedIndex == 1)
+        Positioned.fill(
+            child: Stack(children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              height: 240, // predefined height
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('src/images/bg.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
-            ]))
-          : SizedBox.shrink(),
+            ),
+          ),
+        ])),
 
       Container(
           color: hour ? Colors.transparent : Color(0xFFFFFFFF),
           child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 44),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Top(index: _selectedIndex),
-              (_selectedIndex == 0)
-                  ? SizedBox(
-                      height: MediaQuery.of(context).size.height - 80,
-                      child: FutureBuilder(
-                          future: workflowdata,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                    CircularProgressIndicator(),
-                                    SizedBox(width: 20),
-                                    Text("正在加载中...")
-                                  ]));
-                            } else if (snapshot.connectionState ==
-                                    ConnectionState.done &&
-                                snapshot.hasError) {
-                              return Center(child: Text("${snapshot.error}"));
-                            } else if (!snapshot.hasData ||
-                                snapshot.data!.isEmpty) {
-                              return Center(child: Text("暂无数据"));
-                            } else {
-                              log("snap?? " + snapshot.data!);
+            padding:
+                EdgeInsets.only(left: 20, right: 20, top: 44), // need to adjust
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Top(index: _selectedIndex),
+                  if (_selectedIndex == 0)
 
-                              return TaskGenerate(
-                                  workdata: snapshot.data!,
-                                  token: token,
-                                  userid: userID,
-                                  username: username,
-                                  dept_id: dept_id,
-                                  uuid: uuid,
-                                  dept_name: dept_name);
-                            }
-                          }))
-                  : const SizedBox.shrink(),
-              (_selectedIndex == 1)
-                  ? Expanded(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                    // SizedBox(
+                    //
+                    //     height: MediaQuery.of(context).size.height - 100,
+                    Expanded(
+                        child: FutureBuilder(
+                            future: workflowdata,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                      CircularProgressIndicator(),
+                                      SizedBox(width: 20),
+                                      Text("正在加载中...")
+                                    ]));
+                              } else if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.hasError) {
+                                return Center(child: Text("${snapshot.error}"));
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return Center(child: Text("暂无数据"));
+                              } else {
+                                log("snap?? " + snapshot.data!);
+
+                                return TaskGenerate(
+                                    workdata: snapshot.data!,
+                                    token: token,
+                                    userid: userID,
+                                    username: username,
+                                    dept_id: dept_id,
+                                    uuid: uuid,
+                                    dept_name: dept_name);
+                              }
+                            })),
+                  if (_selectedIndex == 1)
+                    Expanded(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
                           Hours(token: token, pointedAT: DatePointed),
                           Divider(color: Color(0xFFF0F0F2)),
                           ConstrainedBox(
@@ -219,12 +223,11 @@ class _HomeState extends State<Home> {
                                       userID: userID,
                                       token: token,
                                       selected: selected)))
-                        ]))
-                  : const SizedBox.shrink(),
-              (_selectedIndex == 4)
-                  ? Mine(user_id: userID, token: token, name: username)
-                  : const SizedBox.shrink(),
-            ]),
+                        ])),
+                  if (_selectedIndex == 4)
+                    Mine(user_id: userID, token: token, name: username),
+                  SizedBox(height: 80),
+                ]),
           )),
 
       // Your other widgets go here
