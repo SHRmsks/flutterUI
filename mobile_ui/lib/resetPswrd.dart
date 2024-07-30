@@ -15,6 +15,11 @@ class _ResetState extends State<Reset> {
   Widget build(BuildContext context) {
     return (Scaffold(
         body: Stack(children: [
+      Positioned.fill(
+        child: Container(
+          color: Color(0xFFF9F9F9),
+        ),
+      ),
       Positioned(
           left: 0,
           right: 0,

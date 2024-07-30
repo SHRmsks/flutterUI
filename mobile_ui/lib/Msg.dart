@@ -14,14 +14,33 @@ class Message extends StatefulWidget {
 }
 
 class _MessageState extends State<Message> {
+  late List<String> title;
+  bool _ready = false;
+  late List<String> content;
+  late List<String> time;
   @override
   void initState() {
     //log("msg Token:" + widget.token);
     super.initState();
-    _getData();
+    _getData().then((value) {
+      if (value.isNotEmpty) {
+        if (value.isNotEmpty) {
+          setState(() {
+            title = value.map((item) => item['title'] as String).toList();
+            content = value.map((item) => item['content'] as String).toList();
+            time = value.map((item) => item['create_time'] as String).toList();
+            _ready = true;
+          });
+          log('item: $value');
+          log('Titles:  $title');
+          log('Contents:  $content');
+          log('Times:  $time');
+        }
+      }
+    });
   }
 
-  Future<void> _getData() async {
+  Future<List<Map<String, dynamic>>> _getData() async {
     try {
       final url = Uri.parse(
           "http://223.68.128.86:28218/manage/ServletCtrl?uuid=&token=" +
@@ -30,9 +49,14 @@ class _MessageState extends State<Message> {
       Map<String, Object> data = {
         "name": "com.zfkj.core.Common.queryData",
         "data": {
+          'page_index': 0,
+          'page_size': 10,
           "tablename": "zfkj_inbox",
+          "sort_condition": [
+            {"field": "id", "direction": "desc"}
+          ],
           "search_condition": [
-            {"field": "create_time", "value": "2024-06-14", "filter": ">="}
+            {"field": "create_time", "value": "2024-05-14", "filter": ">="}
           ]
         }
       };
@@ -45,39 +69,61 @@ class _MessageState extends State<Message> {
       if (response.statusCode == 200) {
         log("msgDaTa: " + Uri.decodeComponent(response.body));
         final responsedata = jsonDecode(Uri.decodeComponent(response.body));
-        log("Decoded response data: $responsedata");
+        return List<Map<String, dynamic>>.from(
+            responsedata['data']['zfkj_inbox']);
         // Handle the data if needed
       } else {
         log('Failed to load data with status: ${response.statusCode}');
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      log('Exception caught: $e');
+      throw Exception('Failed to load data $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
-        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-      Container(
-        color: Color(0xFFFFFFFF),
-        padding: EdgeInsets.only(top: 30, bottom: 10),
-        child: SPback(backName: '消息箱'),
+        body: Stack(children: [
+      Positioned.fill(
+        child: Container(
+          color: Color(0xFFF9F9F9),
+        ),
       ),
-      Expanded(
-          child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return MSG(
-                  title: '系统消息',
-                  msg: '产品创造于工厂，而品牌创造于心灵ff3f3f3fih34ihf3hf3h4f3fh348fh3f34fh39',
-                  time: '下午08:13',
-                  index: index,
-                );
-              })),
+      Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Container(
+          color: Color(0xFFFFFFFF),
+          padding: EdgeInsets.only(top: 40, bottom: 10),
+          child: SPback(backName: '消息箱'),
+        ),
+        _ready
+            ? Expanded(
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    itemCount: 1, //hardcoded for now
+                    itemBuilder: (context, index) {
+                      return MSG(
+                        token: widget.token,
+                        titles: title,
+                        messages: content,
+                        times: time,
+                        title: '系统消息',
+                        msg: title[title.length - 1],
+                        time: time[title.length - 1].substring(11, 19),
+                        index: index,
+                      );
+                    }))
+            : Expanded(
+                child: Center(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                    CircularProgressIndicator(),
+                    SizedBox(width: 20),
+                    Text("正在加载中...")
+                  ]))),
+      ])
     ])));
   }
 }

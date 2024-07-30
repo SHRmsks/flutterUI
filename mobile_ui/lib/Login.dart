@@ -116,7 +116,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -134,11 +134,11 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 44),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Image(
                         image: AssetImage('src/images/icon.png'),
                       ),
-                      SizedBox(width: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -272,7 +272,8 @@ class _LoginState extends State<Login> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton(
+                          Expanded(
+                              child: ElevatedButton(
                             onPressed: _submit,
                             // Action when button is pressed
 
@@ -293,9 +294,8 @@ class _LoginState extends State<Login> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(4)),
                               ),
-                              fixedSize: Size(315, 48),
                             ),
-                          ),
+                          )),
                         ],
                       ),
                       SizedBox(height: 132),

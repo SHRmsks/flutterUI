@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import '../messages.dart';
 import 'package:flutter/material.dart';
 
 class MSG extends StatefulWidget {
@@ -7,12 +7,20 @@ class MSG extends StatefulWidget {
   final String msg;
   final String time;
   final int index;
+  final String token;
+  final List<String> messages;
+  final List<String> titles;
+  final List<String> times;
   const MSG(
       {Key? key,
       required this.title,
       required this.msg,
       required this.time,
-      required this.index});
+      required this.index,
+      required this.messages,
+      required this.titles,
+      required this.times, required this.token});
+
   @override
   _MSGState createState() => _MSGState();
 }
@@ -25,7 +33,14 @@ class _MSGState extends State<MSG> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Messages(
+                          times: widget.times, contents: widget.messages, token: widget.token)),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -41,7 +56,7 @@ class _MSGState extends State<MSG> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 13, horizontal: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(

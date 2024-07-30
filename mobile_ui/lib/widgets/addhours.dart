@@ -315,7 +315,7 @@ class _AddhoursState extends State<Addhours> {
                         ),
                         child: TextField(
                           controller: _textController,
-                          maxLines: null,
+                          maxLines: 3,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: OutlineInputBorder(
@@ -372,7 +372,7 @@ class _AddhoursState extends State<Addhours> {
                       //   ),
                       // ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _check,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFFFFFFF),
                           side:

@@ -1,27 +1,32 @@
+import "dart:developer";
+
 import "package:flutter/material.dart";
 
 class Suggestion extends StatefulWidget {
   // final Function(double) ChangedHeight;
-  const Suggestion({super.key/*,required this.ChangedHeight*/});
+  const Suggestion({super.key /*,required this.ChangedHeight*/});
   @override
   _SuggestionState createState() => _SuggestionState();
 }
 
 class _SuggestionState extends State<Suggestion> {
   double _movements = 30.0;
+  double _keyboardHeight = 0;
 
   void _setHeight(DragUpdateDetails details) {
+    final maxHeight =
+        MediaQuery.of(context).size.height - _keyboardHeight - 500;
     setState(() {
       _movements -= details.delta.dy;
       if (_movements < 30) _movements = 30;
-
-      if (_movements > 400) _movements = 400;
-      // widget.ChangedHeight(_movements);
+      log("maxheight: " + maxHeight.toString());
+      if (_movements > maxHeight) _movements = maxHeight;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     return (GestureDetector(
         onVerticalDragUpdate: _setHeight,
         child: Container(

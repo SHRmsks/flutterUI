@@ -5,14 +5,12 @@ import './hour.dart';
 import 'package:http/http.dart' as http;
 
 class HourGenerate extends StatefulWidget {
-  final String date;
   final String userID;
   final String token;
   final DateTime? selected;
   @override
   const HourGenerate(
       {super.key,
-      required this.date,
       required this.userID,
       required this.token,
       required this.selected});
@@ -56,7 +54,7 @@ class _HourGenerateState extends State<HourGenerate> {
 
   void _fetchedHours() async {
     try {
-      final data = await _getHours(widget.token, widget.userID, widget.date);
+      final data = await _getHours(widget.token, widget.userID);
       setState(() {
         hourList = data;
         errormsg = null;
@@ -78,7 +76,7 @@ class _HourGenerateState extends State<HourGenerate> {
   }
 
   Future<List<Map<String, dynamic>>> _getHours(
-      String token, String userID, String dates) async {
+      String token, String userID) async {
     log("selected Date: $pointed");
     final url = Uri.parse(
         "http://223.68.128.86:28218/manage/ServletCtrl?uuid=&token=" + token);
@@ -132,21 +130,22 @@ class _HourGenerateState extends State<HourGenerate> {
                   fontWeight: FontWeight.w500,
                 ),
               ))
-            : ListView.builder(
-                itemCount: hourList.length,
-                itemBuilder: (context, index) {
-                  final hour = hourList[index];
-                  log("hour:: $hour");
-                  final time = hour['gs'].substring(0, 1);
-                  final task = hour['xmmc'];
-                  final notes = hour['bz'];
+            : Expanded(
+                child: ListView.builder(
+                    itemCount: hourList.length,
+                    itemBuilder: (context, index) {
+                      final hour = hourList[index];
+                      log("hour:: $hour");
+                      final time = hour['gs'].substring(0, 1);
+                      final task = hour['xmmc'];
+                      final notes = hour['bz'];
 
-                  return Taskhour(
-                      time: time,
-                      task: task,
-                      notes: notes,
-                      onDelete: (int idx) => removeItem(idx),
-                      index: index);
-                });
+                      return Taskhour(
+                          time: time,
+                          task: task,
+                          notes: notes,
+                          onDelete: (int idx) => removeItem(idx),
+                          index: index);
+                    }));
   }
 }

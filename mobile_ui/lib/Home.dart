@@ -121,11 +121,11 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
-      Container(
-          color: Color(0xFFFFFFFFF),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height),
-
+      Positioned.fill(
+        child: Container(
+          color: Color(0xFFF9F9F9),
+        ),
+      ),
       if (_selectedIndex == 1)
         Positioned.fill(
             child: Stack(children: [
@@ -217,9 +217,8 @@ class _HomeState extends State<Home> {
                               )),
                           Expanded(
                               child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 80.0),
+                                  padding: const EdgeInsets.only(bottom: 30.0),
                                   child: HourGenerate(
-                                      date: "2",
                                       userID: userID,
                                       token: token,
                                       selected: selected)))

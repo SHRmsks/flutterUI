@@ -28,6 +28,7 @@ class _TaskhourState extends State<Taskhour> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
+            constraints: BoxConstraints(maxHeight: 80),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(3)),
               color: Color(0xFFFFFFFF),
@@ -42,10 +43,10 @@ class _TaskhourState extends State<Taskhour> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                    constraints: BoxConstraints(maxWidth: 60, maxHeight: 76),
+                    constraints: BoxConstraints(maxWidth: 60),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(3)),
                         gradient: LinearGradient(
@@ -86,30 +87,34 @@ class _TaskhourState extends State<Taskhour> {
                     extentRatio: 0.6,
                     children: [
                       CustomSlidableAction(
-                        onPressed: (context) {},
-                        backgroundColor: Color(0xFF78CE24),
-                        foregroundColor: Colors.white,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Image.asset('src/images/rocket.png'),
-                              Text('提交',
-                                  style: TextStyle(
-                                      color: Color(0xFFFFFFFF),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "PingFang SC"))
-                            ]),
-                      ),
+                          onPressed: (context) {},
+                          padding: EdgeInsets.all(0),
+                          backgroundColor: Color(0xFF78CE24),
+                          foregroundColor: Colors.white,
+                          child: Expanded(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset('src/images/rocket.png'),
+                                  Text('提交',
+                                      style: TextStyle(
+                                          color: Color(0xFFFFFFFF),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: "PingFang SC"))
+                                ]),
+                          )),
                       CustomSlidableAction(
                           onPressed: (context) {},
+                          padding: EdgeInsets.all(0),
                           backgroundColor: Color(0xFFFFA000),
                           foregroundColor: Colors.white,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
+                          child: Expanded(
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
                                 Image.asset('src/images/modify.png'),
                                 Text('编辑',
                                     style: TextStyle(
@@ -117,17 +122,19 @@ class _TaskhourState extends State<Taskhour> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "PingFang SC"))
-                              ])),
+                              ]))),
                       CustomSlidableAction(
                           onPressed: (context) {
                             widget.onDelete(widget.index);
                           },
                           backgroundColor: Color(0xFFFE3B44),
                           foregroundColor: Colors.white,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
+                          padding: EdgeInsets.all(0),
+                          child: Expanded(
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
                                 Image.asset('src/images/deleteW.png'),
                                 Text('删除',
                                     style: TextStyle(
@@ -135,7 +142,7 @@ class _TaskhourState extends State<Taskhour> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
                                         fontFamily: "PingFang SC"))
-                              ]))
+                              ])))
                     ],
                   ),
                   child: ListTile(

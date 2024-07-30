@@ -194,7 +194,8 @@ class _ShenpixmState extends State<Shenpixm> {
                     filename:
                         (data[0]['data']['xmglxt_xmxx'][0]['fj_name'].isEmpty)
                             ? []
-                            : data[0]['data']['xmglxt_xmxx'][0]['fj_name'].split(','),
+                            : data[0]['data']['xmglxt_xmxx'][0]['fj_name']
+                                .split(','),
                     file: (data[0]['data']['xmglxt_xmxx'][0]['fj'].isEmpty)
                         ? []
                         : data[0]['data']['xmglxt_xmxx'][0]['fj'].split(','),
