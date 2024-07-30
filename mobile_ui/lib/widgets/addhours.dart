@@ -441,7 +441,7 @@ class _AddhoursState extends State<Addhours> {
               ? GestureDetector(
                   onTap: toggle,
                   child: Container(
-                      height: 350,
+                      height: 400,
                       color: Colors.black54,
                       child: Container(
                           color: Colors.white,
